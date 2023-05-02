@@ -7,11 +7,15 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
+    "start-server": "node server.js",
     "test": "jest"
   },
   "dependencies": {
+    "@juspay-tech/hyperswitch-node": "^1.0.1",
     "@juspay-tech/react-native-hyperswitch": "^0.1.12",
     "@react-native-picker/picker": "^2.4.10",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-code-push": "^8.0.1",
@@ -25,6 +29,8 @@
     "react-native-svg": "^13.9.0"
   },
   "devDependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
