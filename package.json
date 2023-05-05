@@ -6,9 +6,11 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
+    "start": "react-native start --reset-cache",
     "start-server": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "clean:android": "cd android && ./gradlew clean && ./gradlew cleanBuildCache && cd ../",
+    "clean:ios": "cd ios && xcodebuild clean && cd ../"
   },
   "dependencies": {
     "@juspay-tech/hyperswitch-node": "^1.0.1",

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Alert} from 'react-native';
 import {HyperProvider} from '@juspay-tech/react-native-hyperswitch';
 import Checkout from './Checkout';
 import TextWithSvg from '../component/TextWithSvg';
@@ -9,27 +9,32 @@ function Home({navigation}) {
 
   let [publishableKey, setPublishableKey] = useState('');
   const fetchPaymentParams = async () => {
-    const response = await fetch(
-      'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    try {
+      const response = await fetch(
+        'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: 500,
+            currency: 'USD',
+            confirm: false,
+            authentication_type: 'no_three_ds',
+            customer_id: 'SaveCard',
+            capture_method: 'automatic',
+          }),
         },
-        body: JSON.stringify({
-          amount: 500,
-          currency: 'USD',
-          confirm: false,
-          authentication_type: 'no_three_ds',
-          customer_id: 'SaveCard',
-          capture_method: 'automatic',
-        }),
-      },
-    );
+      );
+      console.log('2nd');
+      const clpk = await response.json();
 
-    const clpk = await response.json();
-    setPublishableKey(clpk.publishableKey);
-    setLoading(false);
+      setPublishableKey(clpk.publishableKey);
+      setLoading(false);
+    } catch (val) {
+      Alert.alert('error: cant fetch publishable key, ' + val);
+    }
   };
 
   useEffect(() => {
