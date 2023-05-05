@@ -1,6 +1,15 @@
 PODS:
   - Base64 (1.1.2)
   - boost (1.76.0)
+  - Braintree/Core (5.21.0)
+  - Braintree/PayPal (5.21.0):
+    - Braintree/Core
+    - Braintree/PayPalDataCollector
+  - Braintree/PayPalDataCollector (5.21.0)
+  - Braintree/PayPalNativeCheckout (5.21.0):
+    - Braintree/Core
+    - Braintree/PayPal
+    - PayPalCheckout (= 0.110.0)
   - CocoaAsyncSocket (7.6.5)
   - CodePush (8.0.1):
     - Base64 (~> 1.1)
@@ -82,7 +91,8 @@ PODS:
   - hermes-engine (0.71.7):
     - hermes-engine/Pre-built (= 0.71.7)
   - hermes-engine/Pre-built (0.71.7)
-  - juspay-tech-react-native-hyperswitch (0.1.11):
+  - juspay-tech-react-native-hyperswitch (0.1.16):
+    - Braintree/PayPalNativeCheckout
     - React-Core
   - JWT (3.0.0-beta.14):
     - Base64 (~> 1.1.2)
@@ -91,6 +101,7 @@ PODS:
   - KlarnaMobileSDK/full (2.4.1)
   - libevent (2.1.12)
   - OpenSSL-Universal (1.1.1100)
+  - PayPalCheckout (0.110.0)
   - RCT-Folly (2021.07.22.00):
     - boost
     - DoubleConversion
@@ -556,6 +567,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Base64
+    - Braintree
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -571,6 +583,7 @@ SPEC REPOS:
     - KlarnaMobileSDK
     - libevent
     - OpenSSL-Universal
+    - PayPalCheckout
     - SocketRocket
     - SSZipArchive
     - YogaKit
@@ -670,6 +683,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost: 57d2868c099736d80fcd648bf211b4431e51a558
+  Braintree: 629e2586433edad0b69a7d2eaba0910b7801db49
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CodePush: ff76ebc5c7c50fb198bae9caf0a3ad4f220fde88
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -687,11 +701,12 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 4438d2b8bf8bebaba1b1ac0451160bab59e491f8
-  juspay-tech-react-native-hyperswitch: 83b0c7b1f758e3c926fae0b84d53c765b998488f
+  juspay-tech-react-native-hyperswitch: 90d6d77bf1c20636e54d50c60f3d351aed377a94
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   KlarnaMobileSDK: c29d1ac27b3e43740c79241974fac5edb2bd2445
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
+  PayPalCheckout: 91b3b728e2bfff22ecffcafcf374574b760f52f9
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 5a4a30ac20c86eeadd6844a9328f78d4168cf9b2
   RCTTypeSafety: 279fc5861a89f0f37db3a585f27f971485b4b734

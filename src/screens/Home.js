@@ -6,21 +6,30 @@ import TextWithSvg from '../component/TextWithSvg';
 
 function Home({navigation}) {
   const [loading, setLoading] = useState(true);
+
+  let [publishableKey, setPublishableKey] = useState('');
   const fetchPaymentParams = async () => {
     const response = await fetch(
-      Platform.OS == 'ios'
-        ? `http://localhost:4242/config`
-        : `http://10.0.2.2:4242/config`,
+      'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          amount: 500,
+          currency: 'USD',
+          confirm: false,
+          authentication_type: 'no_three_ds',
+          customer_id: 'SaveCard',
+          capture_method: 'automatic',
+        }),
       },
     );
-    const {publishableKey} = await response.json();
+
+    const clpk = await response.json();
+    setPublishableKey(clpk.publishableKey);
     setLoading(false);
-    return publishableKey;
   };
 
   useEffect(() => {
@@ -64,9 +73,9 @@ function Home({navigation}) {
         text="May 3, 2023 20:00"
         uri="https://get-in.com/en/assets/images/svg-icons/calendar.svg"
       />
-      {!loading ? (
+      {!loading && publishableKey ? (
         <HyperProvider
-          publishableKey="pk_snd_1e5425f5dea94ee793cf34ea326294d8"
+          publishableKey={publishableKey}
           merchantIdentifier="merchant.identifier" // required for Apple Pay
           urlScheme="https://www.google.com/" // required for 3D Secure and bank redirects
         >

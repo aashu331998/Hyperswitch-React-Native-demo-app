@@ -13,28 +13,40 @@ const Checkout = () => {
 
   const fetchPaymentParams = async amount => {
     const response = await fetch(
-      Platform.OS == 'ios'
-        ? `http://localhost:4242/create-payment-intent`
-        : `http://10.0.2.2:4242/create-payment-intent`,
+      'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({amount: amount}),
+        body: JSON.stringify({
+          amount: amount * 100,
+          currency: 'USD',
+          confirm: false,
+          authentication_type: 'no_three_ds',
+          customer_id: 'SaveCard',
+          capture_method: 'automatic',
+        }),
       },
     );
-    const val = await response.json();
-    return val;
+    const clpk = await response.json();
+    return clpk.clientSecret;
   };
 
   const initializePaymentSheet = async amount => {
     setLoading(true);
-    const {clientSecret} = await fetchPaymentParams(amount);
+    const googlePay = {
+      environment: 'test',
+      countryCode: 'US',
+      currencyCode: 'USD',
+    };
+    let clientSecret = await fetchPaymentParams(amount);
     console.log('clientSecret fetched => ', clientSecret);
     const {error} = await initPaymentSheet({
       merchantDisplayName: 'Example',
       paymentIntentClientSecret: clientSecret,
+      googlePay: googlePay,
+      style: 'AlwaysDark',
     });
     if (!error) {
       setLoading(false);
