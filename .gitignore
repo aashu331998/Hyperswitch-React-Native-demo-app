@@ -65,4 +65,4 @@ yarn-error.log
 
 package-lock.json
 yarn.lock
-Podfile.lock
+ios/Podfile.lock
