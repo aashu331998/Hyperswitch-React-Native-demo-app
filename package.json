@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@juspay-tech/hyperswitch-node": "^1.0.1",
-    "@juspay-tech/react-native-hyperswitch": "^0.1.16",
+    "@juspay-tech/react-native-hyperswitch": "^0.1.18",
     "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",

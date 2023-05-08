@@ -25,7 +25,7 @@ const Checkout = () => {
           confirm: false,
           authentication_type: 'no_three_ds',
           customer_id: 'SaveCard',
-          capture_method: 'automatic',
+          capture_method: 'manual',
         }),
       },
     );
@@ -60,7 +60,9 @@ const Checkout = () => {
   }, [price]);
 
   const openPaymentSheet = async () => {
-    const {error} = await presentPaymentSheet();
+    const res = await presentPaymentSheet();
+    console.log('presentPaymentSheet response: ', res);
+    const {error} = res;
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {

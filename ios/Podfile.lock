@@ -91,7 +91,7 @@ PODS:
   - hermes-engine (0.71.7):
     - hermes-engine/Pre-built (= 0.71.7)
   - hermes-engine/Pre-built (0.71.7)
-  - juspay-tech-react-native-hyperswitch (0.1.16):
+  - juspay-tech-react-native-hyperswitch (0.1.18):
     - Braintree/PayPalNativeCheckout
     - React-Core
   - JWT (3.0.0-beta.14):
@@ -701,7 +701,7 @@ SPEC CHECKSUMS:
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 4438d2b8bf8bebaba1b1ac0451160bab59e491f8
-  juspay-tech-react-native-hyperswitch: 90d6d77bf1c20636e54d50c60f3d351aed377a94
+  juspay-tech-react-native-hyperswitch: 9629cc0b6604e64477e787cd87ecd6a56c451cb0
   JWT: ef71dfb03e1f842081e64dc42eef0e164f35d251
   KlarnaMobileSDK: c29d1ac27b3e43740c79241974fac5edb2bd2445
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913

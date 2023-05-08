@@ -23,11 +23,10 @@ function Home({navigation}) {
             confirm: false,
             authentication_type: 'no_three_ds',
             customer_id: 'SaveCard',
-            capture_method: 'automatic',
+            capture_method: 'manual',
           }),
         },
       );
-      console.log('2nd');
       const clpk = await response.json();
 
       setPublishableKey(clpk.publishableKey);

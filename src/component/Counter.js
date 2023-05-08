@@ -42,7 +42,9 @@ const Counter = ({setPrice, price}) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>-</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+            -
+          </Text>
         </TouchableOpacity>
         <Text
           style={{
@@ -65,7 +67,9 @@ const Counter = ({setPrice, price}) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>+</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>
+            +
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
