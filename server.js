@@ -15,6 +15,50 @@ app.post('/create-payment-intent', async (req, res) => {
     const paymentIntent = await hyper.paymentIntents.create({
       amount: req.body.amount * 100,
       currency: 'USD',
+      confirm: false,
+      capture_method: 'automatic',
+      authentication_type: 'no_three_ds',
+      customer_id: 'StripeCustomer',
+      shipping: {
+        address: {
+          line1: '1467',
+          line2: 'Harrison Street',
+          line3: 'Harrison Street',
+          city: 'San Fransico',
+          state: 'California',
+          zip: '94122',
+          country: 'US',
+          first_name: 'joseph',
+          last_name: 'Doe',
+        },
+        phone: {
+          number: '8056594427',
+          country_code: '+91',
+        },
+      },
+      billing: {
+        address: {
+          line1: '1467',
+          line2: 'Harrison Street',
+          line3: 'Harrison Street',
+          city: 'San Fransico',
+          state: 'California',
+          zip: '94122',
+          country: 'US',
+          first_name: 'joseph',
+          last_name: 'Doe',
+        },
+        phone: {
+          number: '8056594427',
+          country_code: '+91',
+        },
+      },
+      metadata: {
+        order_details: {
+          product_name: 'Apple iphone 15',
+          quantity: 1,
+        },
+      },
       // authentication_type: 'no_three_ds',
     });
     res.send({

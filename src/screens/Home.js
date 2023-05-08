@@ -2,37 +2,32 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, Alert} from 'react-native';
 import {HyperProvider} from '@juspay-tech/react-native-hyperswitch';
 import Checkout from './Checkout';
-import TextWithSvg from '../component/TextWithSvg';
 
-function Home({navigation}) {
+function Home() {
   const [loading, setLoading] = useState(true);
 
   let [publishableKey, setPublishableKey] = useState('');
   const fetchPaymentParams = async () => {
     try {
       const response = await fetch(
-        'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
+        Platform.OS == 'ios'
+          ? `http://localhost:4242/config`
+          : `http://10.0.2.2:4242/config`,
         {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            amount: 500,
-            currency: 'USD',
-            confirm: false,
-            authentication_type: 'no_three_ds',
-            customer_id: 'SaveCard',
-            capture_method: 'manual',
-          }),
         },
       );
-      const clpk = await response.json();
+      const {publishableKey} = await response.json();
 
-      setPublishableKey(clpk.publishableKey);
+      setPublishableKey(publishableKey);
       setLoading(false);
     } catch (val) {
-      Alert.alert('error: cant fetch publishable key, ' + val);
+      Alert.alert(
+        `error: \n publishable key not found, \nplease check server.js`,
+      );
     }
   };
 
@@ -46,37 +41,17 @@ function Home({navigation}) {
       style={{
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#080416',
         padding: 10,
       }}>
-      <Image
-        style={{
-          width: 100 + '%',
-          height: 50 + '%',
-          borderRadius: 10,
-        }}
-        source={{
-          uri: 'https://static.get-in.com/gallery/tablet_cover_20230419_193027_251081.png',
-        }}
-      />
       <Text
         style={{
-          color: 'white',
           fontWeight: 'bold',
           fontSize: 24,
           width: 100 + '%',
           paddingTop: 20,
         }}>
-        NLE Choppa In Israel
+        Pay using Payment Sheet
       </Text>
-      <TextWithSvg
-        text="Abarbanel St 88, Tel Aviv-Yafo, Israel"
-        uri="https://get-in.com/en/assets/images/svg-icons/pointonmap.svg"
-      />
-      <TextWithSvg
-        text="May 3, 2023 20:00"
-        uri="https://get-in.com/en/assets/images/svg-icons/calendar.svg"
-      />
       {!loading && publishableKey ? (
         <HyperProvider
           publishableKey={publishableKey}
@@ -86,10 +61,9 @@ function Home({navigation}) {
           <Checkout />
         </HyperProvider>
       ) : (
-        <View
-          style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end'}}>
-          <Text style={{color: 'white'}}>{'loading... publishable key'}</Text>
-        </View>
+        <Text style={{color: 'black', paddingTop: 20}}>
+          {'loading... publishable key'}
+        </Text>
       )}
     </View>
   );

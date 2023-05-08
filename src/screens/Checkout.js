@@ -2,35 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {Alert, Platform, Text, TouchableOpacity, View} from 'react-native';
 
 import {useHyper} from '@juspay-tech/react-native-hyperswitch';
-import Counter from '../component/Counter';
-
-const pricePerItem = 5;
 
 const Checkout = () => {
-  const [price, setPrice] = useState(pricePerItem);
+  const price = 5;
   const [loading, setLoading] = useState(true);
   const {initPaymentSheet, presentPaymentSheet} = useHyper();
 
   const fetchPaymentParams = async amount => {
     const response = await fetch(
-      'https://u4kkpaenwc.execute-api.ap-south-1.amazonaws.com/default/create-payment-intent',
+      Platform.OS == 'ios'
+        ? `http://localhost:4242/create-payment-intent`
+        : `http://10.0.2.2:4242/create-payment-intent`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          amount: amount * 100,
-          currency: 'USD',
-          confirm: false,
-          authentication_type: 'no_three_ds',
-          customer_id: 'SaveCard',
-          capture_method: 'manual',
-        }),
+        body: JSON.stringify({amount: amount}),
       },
     );
-    const clpk = await response.json();
-    return clpk.clientSecret;
+    const val = await response.json();
+    return val.clientSecret;
   };
 
   const initializePaymentSheet = async amount => {
@@ -57,7 +49,7 @@ const Checkout = () => {
 
   useEffect(() => {
     initializePaymentSheet(price);
-  }, [price]);
+  }, []);
 
   const openPaymentSheet = async () => {
     const res = await presentPaymentSheet();
@@ -75,32 +67,23 @@ const Checkout = () => {
   return (
     <View
       style={{
-        flex: 1,
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
       }}>
-      <Counter
-        setPrice={val => {
-          setPrice(_ => val);
-        }}
-        price={pricePerItem}
-      />
       <TouchableOpacity
         style={{
-          backgroundColor: 'white',
+          backgroundColor: 'rgba(0, 153, 255, 1)',
           width: 100 + '%',
           alignItems: 'center',
-          justifyContent: 'center',
           paddingVertical: 13,
           borderRadius: 8,
+          marginTop: 20,
         }}
         onPress={openPaymentSheet}
         title="Pay Now"
         disabled={loading}>
         <Text
           style={{
-            color: 'black',
+            color: 'white',
             fontWeight: 'bold',
             fontSize: 20,
           }}>
