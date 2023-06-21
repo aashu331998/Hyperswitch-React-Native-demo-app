@@ -61,9 +61,7 @@ app.post('/create-payment-intent', async (req, res) => {
       },
       // authentication_type: 'no_three_ds',
     });
-    res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
+    res.send(paymentIntent);
   } catch (err) {
     return res.status(400).send({
       error: {

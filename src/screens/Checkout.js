@@ -22,7 +22,7 @@ const Checkout = () => {
       },
     );
     const val = await response.json();
-    return val.clientSecret;
+    return val;
   };
 
   const initializePaymentSheet = async amount => {
@@ -32,11 +32,17 @@ const Checkout = () => {
       countryCode: 'US',
       currencyCode: 'USD',
     };
-    let clientSecret = await fetchPaymentParams(amount);
-    console.log('clientSecret fetched => ', clientSecret);
+    let {client_secret, ephemeral_key} = await fetchPaymentParams(amount);
+    console.log(
+      'clientSecret and ephemeral_key fetched => ',
+      client_secret,
+      ephemeral_key,
+    );
     const {error} = await initPaymentSheet({
+      customerId: ephemeral_key.customer_id,
+      customerEphemeralKeySecret: ephemeral_key.secret,
       merchantDisplayName: 'Example',
-      paymentIntentClientSecret: clientSecret,
+      paymentIntentClientSecret: client_secret,
       googlePay: googlePay,
       style: 'AlwaysDark',
     });
