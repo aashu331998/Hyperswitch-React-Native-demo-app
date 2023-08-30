@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {Platform, View} from 'react-native';
 
-import {useHyper} from '@juspay-tech/react-native-hyperswitch';
+import CheckoutReuse from './CheckoutReuse';
 
 const Checkout = () => {
   const price = 5;
   const [loading, setLoading] = useState(true);
-  const {initPaymentSheet, presentPaymentSheet} = useHyper();
+  const [apicall, setApicall] = useState('');
 
   const fetchPaymentParams = async amount => {
     const response = await fetch(
@@ -27,75 +27,34 @@ const Checkout = () => {
 
   const initializePaymentSheet = async amount => {
     setLoading(true);
-    const googlePay = {
-      environment: 'test',
-      countryCode: 'US',
-      currencyCode: 'USD',
-    };
     let {client_secret, ephemeral_key} = await fetchPaymentParams(amount);
+    setApicall({client_secret: client_secret, ephemeral_key: ephemeral_key});
     console.log(
       'clientSecret and ephemeral_key fetched => ',
       client_secret,
       ephemeral_key,
     );
-    const {error} = await initPaymentSheet({
-      customerId: ephemeral_key.customer_id,
-      customerEphemeralKeySecret: ephemeral_key.secret,
-      merchantDisplayName: 'Example',
-      paymentIntentClientSecret: client_secret,
-      googlePay: googlePay,
-      style: 'AlwaysDark',
-    });
-    if (!error) {
-      setLoading(false);
-    } else {
-      console.log('initPaymentSheet error =>', await error);
-    }
+    setLoading(false);
   };
 
   useEffect(() => {
     initializePaymentSheet(price);
   }, []);
 
-  const openPaymentSheet = async () => {
-    const res = await presentPaymentSheet();
-    console.log('presentPaymentSheet response: ', res);
-    const {error} = res;
-    if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
-    } else {
-      Alert.alert('Success', 'Your order is confirmed!');
-    }
-    //to reFetch clientSecret
-    initializePaymentSheet(price);
-  };
-
   return (
     <View
       style={{
         width: '100%',
       }}>
-      <TouchableOpacity
-        style={{
-          backgroundColor: 'rgba(0, 153, 255, 1)',
-          width: 100 + '%',
-          alignItems: 'center',
-          paddingVertical: 13,
-          borderRadius: 8,
-          marginTop: 20,
-        }}
-        onPress={openPaymentSheet}
-        title="Pay Now"
-        disabled={loading}>
-        <Text
-          style={{
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: 20,
-          }}>
-          {!loading ? `Pay Now ${price}$` : 'loading...'}
-        </Text>
-      </TouchableOpacity>
+      {loading ? (
+        <></>
+      ) : (
+        <CheckoutReuse
+          client_secret={apicall && apicall.client_secret}
+          ephemeral_key={apicall && apicall.ephemeral_key}
+          price={price}
+        />
+      )}
     </View>
   );
 };
